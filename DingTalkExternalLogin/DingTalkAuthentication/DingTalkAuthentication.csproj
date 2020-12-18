@@ -8,6 +8,9 @@
     <Company />
     <Version>3.1.10</Version>
     <Description>提供钉钉外部扫码登陆的 Middleware</Description>
+    <PackageProjectUrl>https://github.com/stg609/DingTalkExternalLogin</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/stg609/DingTalkExternalLogin.git</RepositoryUrl>
+    <PackageTags>DingTalk 钉钉</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

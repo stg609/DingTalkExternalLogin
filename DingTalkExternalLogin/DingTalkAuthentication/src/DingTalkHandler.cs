@@ -16,7 +16,7 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-    
+
 
     /// <summary>
     /// DingDing External Login Hanlder
@@ -24,9 +24,9 @@ namespace Microsoft.Extensions.DependencyInjection
     /// <see cref="https://ding-doc.dingtalk.com/document#/org-dev-guide/kymkv6"/>
     public class DingTalkHandler : OAuthHandler<DingTalkOptions>
     {
-        public DingTalkHandler(IOptionsMonitor<DingTalkOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) 
+        public DingTalkHandler(IOptionsMonitor<DingTalkOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
             : base(options, logger, encoder, clock)
-        {            
+        {
         }
 
         protected override string BuildChallengeUrl(AuthenticationProperties properties, string redirectUri)
@@ -116,7 +116,7 @@ namespace Microsoft.Extensions.DependencyInjection
 
             await Events.CreatingTicket(context);
             return new AuthenticationTicket(context.Principal, context.Properties, Scheme.Name);
-        }      
+        }
     }
 
 }

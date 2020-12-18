@@ -1,4 +1,6 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Globalization;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +34,22 @@ namespace Microsoft.Extensions.DependencyInjection
         /// 用于扫码登陆的 App Secret
         /// </summary>
         public string QrLoginAppSecret { get; set; }
+
+
+        public override void Validate()
+        {
+            base.Validate();
+
+            if (string.IsNullOrEmpty(QrLoginAppId))
+            {
+                throw new ArgumentException(nameof(QrLoginAppId));
+            }
+
+            if (string.IsNullOrEmpty(QrLoginAppId))
+            {
+                throw new ArgumentException(nameof(QrLoginAppSecret));
+            }
+        }
     }
 
 }
