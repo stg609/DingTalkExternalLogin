@@ -1,0 +1,175 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Charlie.AspNetCore.Authentication.DingTalk</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Extensions.DependencyInjection.DingTalkExternalLoginMiddlewareExtension">
+            <summary>
+            钉钉外部登录扩展
+            </summary>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DingTalkExternalLoginMiddlewareExtension.AddDingTalk(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.Action{Microsoft.Extensions.DependencyInjection.DingTalkOptions})">
+            <summary>
+            提供DingDing外部登陆
+            </summary>
+            <param name="builder"></param>
+            <param name="configureOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.DingTalkHandler">
+            <summary>
+            DingDing External Login Hanlder
+            </summary>
+            <see cref="!:https://ding-doc.dingtalk.com/document#/org-dev-guide/kymkv6"/>
+        </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DingTalkHandler.ExchangeCodeAsync(Microsoft.AspNetCore.Authentication.OAuth.OAuthCodeExchangeContext)">
+            <summary>
+            利用钉钉返回的 临时 Code 得到用户信息 (及 access token)
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.DingTalkOptions">
+            <summary>
+            Ding Ding 外部登录选项
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkOptions.QrLoginAppId">
+            <summary>
+            用于扫码登陆的 App Id
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkOptions.QrLoginAppSecret">
+            <summary>
+            用于扫码登陆的 App Secret
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Mobile">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Name">
+            <summary>
+            员工名字
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.OrgEmail">
+            <summary>
+            员工的企业邮箱，如果员工已经开通了企业邮箱，接口会返回，否则不会返回
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.RealAuthed">
+            <summary>
+            是否实名认证
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.StateCode">
+            <summary>
+            国家地区码
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Tel">
+            <summary>
+            分机号（仅限企业内部开发调用）
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Unionid">
+            <summary>
+            员工在当前开发者企业账号范围内的唯一标识，系统生成，固定值，不会改变
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Userid">
+            <summary>
+            员工在当前企业内的唯一标识，也称staffId。可由企业在创建时指定，并代表一定含义比如工号，创建后不可修改
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Position">
+            <summary>
+            职位信息
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.WorkPlace">
+            <summary>
+            办公地点
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Jobnumber">
+            <summary>
+            员工工号
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Active">
+            <summary>
+            是否已经激活，true表示已激活，false表示未激活
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Avatar">
+            <summary>
+            头像url
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Department">
+            <summary>
+            成员所属部门id列表
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Email">
+            <summary>
+            员工的电子邮箱
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Errcode">
+            <summary>
+            返回码
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.IsSenior">
+            <summary>
+            是否是高管
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Errmsg">
+            <summary>
+            对返回码的文本描述内容
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.HiredDate">
+            <summary>
+            入职时间。Unix时间戳 （在OA后台通讯录中的员工基础信息中维护过入职时间才会返回)
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.IsAdmin">
+            <summary>
+            是否为企业的管理员，true表示是，false表示不是
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.IsBoss">
+            <summary>
+            是否为企业的老板，true表示是，false表示不是
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.IsHide">
+            <summary>
+            是否号码隐藏，true表示隐藏，false表示不隐藏
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.IsLeaderInDepts">
+            <summary>
+            在对应的部门中是否为主管：Map结构的json字符串，key是部门的id，value是人员在这个部门中是否为主管，true表示是，false表示不是
+            </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Extattr">
+            <summary>
+            扩展属性，可以设置多种属性（手机上最多显示10个扩展属性，具体显示哪些属性，请到OA管理后台->设置->通讯录信息设置和OA管理后台->设置->手机端显示信息设置）。
+            该字段的值支持链接类型填写，同时链接支持变量通配符自动替换，目前支持通配符有：userid，corpid。
+            </summary>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>Charlie.AspNetCore.Authentication.DingTalk</AssemblyName>
+    <RootNamespace>Microsoft.Extensions.DependencyInjection</RootNamespace>
+    <Authors>Charlie</Authors>
+    <Company />
+    <Version>3.1.10</Version>
+    <Description>提供钉钉外部扫码登陆的 Middleware</Description>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>.\Charlie.AspNetCore.Authentication.DingTalk.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>.\Charlie.AspNetCore.Authentication.DingTalk.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TopSdk">
+      <HintPath>dlls\TopSdk.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

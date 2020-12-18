@@ -3,3 +3,6 @@
 ################################################################################
 
 /DingTalkExternalLogin/DingTalkAuthentication/bin
+/.vs
+/DingTalkExternalLogin/.vs/DingTalkExternalLogin/v16
+/DingTalkExternalLogin/DingTalkAuthentication/obj
