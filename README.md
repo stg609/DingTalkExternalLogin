@@ -5,6 +5,8 @@
 1. 开发者自行在钉钉开发者平台中注册 **移动接入应用-登陆**
 
 ### 基本用法   
+1. 引入 nuget package: `Install-Package Charlie.AspNetCore.Authentication.DingTalk`
+2. 增加如下代码
 ```csharp
 services.AddAuthentication()
     .AddDingTalk(opts =>
