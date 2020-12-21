@@ -19,8 +19,9 @@ services.AddAuthentication()
      }
 ```
 
-### 使用方法   
-#### 使用钉钉的扫码页面   
+### 具体使用方法   
+下面以2种扫码方式进行分别说明
+#### 使用钉钉自带的扫码页面   
 1. 创建一个 Asp.Net Core Web 应用程序（MVC)
 1. 修改**身份验证**，选择 **个人用户账户**
 1. 在 `Startup.cs` 的 `ConfigureServices` 中，增加如下代码：
@@ -37,7 +38,6 @@ services.AddAuthentication()
     ```
 
 #### 使用自定义的扫码页面
-
 相比钉钉自带的扫码页面，使用自定义页面需要额外几个步骤
 1. 【同上】创建一个 Asp.Net Core Web 应用程序（MVC)
 1. 【同上】修改**身份验证**，选择 **个人用户账户**
