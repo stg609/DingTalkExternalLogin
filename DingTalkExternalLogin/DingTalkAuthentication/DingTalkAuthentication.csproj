@@ -6,11 +6,15 @@
     <RootNamespace>Microsoft.Extensions.DependencyInjection</RootNamespace>
     <Authors>Charlie</Authors>
     <Company />
-    <Version>3.1.10</Version>
-    <Description>提供钉钉外部扫码登陆的 Middleware</Description>
+    <Version>1.0.4</Version>
+    <Description>提供钉钉外部扫码登陆的 Middleware，要求 .Net Core 为 3.1.10</Description>
     <PackageProjectUrl>https://github.com/stg609/DingTalkExternalLogin</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stg609/DingTalkExternalLogin.git</RepositoryUrl>
-    <PackageTags>DingTalk 钉钉</PackageTags>
+    <PackageTags>DingTalk;钉钉;扫码登陆</PackageTags>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageLicenseUrl></PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -22,7 +26,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="$(OutputPath)\dlls\TopSdk.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -30,5 +52,12 @@
       <HintPath>dlls\TopSdk.dll</HintPath>
     </Reference>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dlls\TopSdk.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>

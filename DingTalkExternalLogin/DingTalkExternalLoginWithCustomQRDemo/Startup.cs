@@ -37,7 +37,7 @@ namespace DingTalkExternalLoginWithCustomQRDemo
             services.AddRazorPages();
 
             var dingTalkOpts = Configuration.GetSection("DingTalkOptions").Get<DingTalkOptions>();
-         
+
             // Ìí¼Ó ¶¤¶¤ µÇÂ½
             services.AddAuthentication().AddDingTalk(opts =>
             {
@@ -58,9 +58,9 @@ namespace DingTalkExternalLoginWithCustomQRDemo
                     var tempDataProvider = ctx.HttpContext.RequestServices.GetRequiredService<ITempDataProvider>();
 
                     tempDataProvider.SaveTempData(ctx.HttpContext, new Dictionary<string, object>
-                         {
-                             { "ErrorMessage",ctx.Failure.Message }
-                         });
+                            {
+                        { "ErrorMessage",ctx.Failure.Message }
+                            });
                     ctx.Response.Redirect("/Identity/Account/Login");
                     ctx.HandleResponse();
 

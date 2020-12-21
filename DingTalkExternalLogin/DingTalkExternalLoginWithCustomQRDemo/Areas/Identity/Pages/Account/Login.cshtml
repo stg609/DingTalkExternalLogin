@@ -61,17 +61,17 @@
                 }
                 else
                 {
-                    <div style="height:300px">
-                        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" target="ifmDingTalk" style="display:none">
-                            <div>
-                                <p>
-                                    <button id="dingTalkLoginBtn" type="submit" class="btn btn-primary" name="provider" value="DingTalk"></button>
-                                </p>
-                            </div>
-                        </form>
-                        <iframe name="ifmDingTalk" scrolling="no" style="width:450px;height:300px">
-                        </iframe>
-                    </div>
+        <div style="height:300px">
+            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" target="ifmDingTalk" style="display:none">
+                <div>
+                    <p>
+                        <button id="dingTalkLoginBtn" type="submit" class="btn btn-primary" name="provider" value="DingTalk"></button>
+                    </p>
+                </div>
+            </form>
+            <iframe name="ifmDingTalk" scrolling="no" style="width:450px;height:300px">
+            </iframe>
+        </div>
                 }
             }
         </section>
