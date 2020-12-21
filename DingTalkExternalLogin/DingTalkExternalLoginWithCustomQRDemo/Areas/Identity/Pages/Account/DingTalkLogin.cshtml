@@ -1,0 +1,42 @@
+﻿@page
+@model DingTalkLoginModel
+
+@{
+    ViewData["Title"] = "Log in";
+    Layout = null;
+}
+
+<html>
+<head>
+</head>
+<body>
+    <div id="code-img" style="width:400px;height:250px"></div>
+
+    <script src="~/lib/jquery/jquery-3.3.1.js"></script>
+    <script src="https://g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js"></script>
+    <script>
+
+        var dingtalk = "https://oapi.dingtalk.com/connect/oauth2/sns_authorize?appid=@(Model.AppId)&response_type=@(Model.ResponseType)&scope=@(Model.Scope)&state=@(Model.State)&redirect_uri=@(Model.RedirectUri)";
+
+            DDLogin({
+                id: "code-img",
+                goto: encodeURIComponent(dingtalk),
+                style: "border:none;background-color:#FFFFFF;margin-top:-40px;",
+                width: "400",
+                height: "300"
+            });
+            var handleMessage = function (event) {
+                if (event.origin == "https://login.dingtalk.com") {
+                    window.top.location.href = dingtalk + "&loginTmpCode=" + event.data;
+                }
+            };
+            if (typeof window.addEventListener != 'undefined') {
+                window.addEventListener('message', handleMessage, false);
+            } else if (typeof window.attachEvent != 'undefined') {
+                window.attachEvent('onmessage', handleMessage);
+            }
+
+    </script>
+</body>
+</html>
+

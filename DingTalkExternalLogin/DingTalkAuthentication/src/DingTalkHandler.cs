@@ -16,8 +16,6 @@ using Microsoft.Extensions.Options;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
-
-
     /// <summary>
     /// DingDing External Login Hanlder
     /// </summary>

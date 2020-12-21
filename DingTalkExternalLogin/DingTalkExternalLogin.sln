@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DingTalkAuthentication", "DingTalkAuthentication\DingTalkAuthentication.csproj", "{7CBDB89A-0136-4134-9A84-BF195AED2DBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DingTalkAuthentication", "DingTalkAuthentication\DingTalkAuthentication.csproj", "{7CBDB89A-0136-4134-9A84-BF195AED2DBA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DingTalkExternalLoginDemo", "DingTalkExternalLoginDemo\DingTalkExternalLoginDemo.csproj", "{43B08378-ACCD-4975-A0BD-765A537B9012}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DingTalkExternalLoginDemo", "DingTalkExternalLoginDemo\DingTalkExternalLoginDemo.csproj", "{43B08378-ACCD-4975-A0BD-765A537B9012}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DingTalkExternalLoginWithCustomQRDemo", "DingTalkExternalLoginWithCustomQRDemo\DingTalkExternalLoginWithCustomQRDemo.csproj", "{4902A21C-C59B-4B3F-82FC-25FDDB1EB836}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{43B08378-ACCD-4975-A0BD-765A537B9012}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43B08378-ACCD-4975-A0BD-765A537B9012}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43B08378-ACCD-4975-A0BD-765A537B9012}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4902A21C-C59B-4B3F-82FC-25FDDB1EB836}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4902A21C-C59B-4B3F-82FC-25FDDB1EB836}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4902A21C-C59B-4B3F-82FC-25FDDB1EB836}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4902A21C-C59B-4B3F-82FC-25FDDB1EB836}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

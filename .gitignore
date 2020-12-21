@@ -6,3 +6,6 @@
 **/.vs
 **/bin
 **/obj
+**/*.Development.json
+/DingTalkExternalLogin/DingTalkExternalLoginWithCustomQRDemo/Properties/serviceDependencies.local.json.user
+/DingTalkExternalLogin/DingTalkExternalLoginWithCustomQRDemo/Properties/serviceDependencies.local.json
