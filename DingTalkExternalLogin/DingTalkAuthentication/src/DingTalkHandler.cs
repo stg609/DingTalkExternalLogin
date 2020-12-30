@@ -30,7 +30,7 @@ namespace Microsoft.Extensions.DependencyInjection
         protected override string BuildChallengeUrl(AuthenticationProperties properties, string redirectUri)
         {
             var state = Options.StateDataFormat.Protect(properties);
-            var endpoint = QueryHelpers.AddQueryString(Options.AuthorizationEndpoint, "appid", Options.QrLoginAppId);
+            var endpoint = QueryHelpers.AddQueryString(Options.AuthorizationEndpoint, "appid", Options.ClientId);
 
             // 拼接钉钉的地址，如：https://oapi.dingtalk.com/connect/qrconnect?appid=APPID&response_type=code&scope=snsapi_login&state=STATE&redirect_uri=REDIRECT_URI
             endpoint = QueryHelpers.AddQueryString(endpoint, "response_type", "code");
@@ -52,63 +52,79 @@ namespace Microsoft.Extensions.DependencyInjection
             DefaultDingTalkClient userInfoClient = new DefaultDingTalkClient("https://oapi.dingtalk.com/sns/getuserinfo_bycode");
             OapiSnsGetuserinfoBycodeRequest userInfoReq = new OapiSnsGetuserinfoBycodeRequest();
             userInfoReq.TmpAuthCode = context.Code;
-            OapiSnsGetuserinfoBycodeResponse userInfoResp = userInfoClient.Execute(userInfoReq, Options.QrLoginAppId, Options.QrLoginAppSecret);
+            OapiSnsGetuserinfoBycodeResponse userInfoResp = userInfoClient.Execute(userInfoReq, Options.ClientId, Options.ClientSecret);
 
-            // 2. 获取 access token
-            IDingTalkClient getTokenClient = new DefaultDingTalkClient("https://oapi.dingtalk.com/gettoken");
-            OapiGettokenRequest getTokenReq = new OapiGettokenRequest();
-            getTokenReq.SetHttpMethod("GET");
-            getTokenReq.Appkey = Options.ClientId;
-            getTokenReq.Appsecret = Options.ClientSecret;
-            OapiGettokenResponse getTokenResp = getTokenClient.Execute(getTokenReq);
-
-            // 3. 根据 unionId, access token 去获取 userId，因为只有 userId 才是企业内用户的唯一编号
-            IDingTalkClient getUserIdClient = new DefaultDingTalkClient("https://oapi.dingtalk.com/user/getUseridByUnionid");
-            OapiUserGetUseridByUnionidRequest getUserIdReq = new OapiUserGetUseridByUnionidRequest();
-            getUserIdReq.SetHttpMethod("GET");
-            getUserIdReq.Unionid = userInfoResp.UserInfo.Unionid;
-            OapiUserGetUseridByUnionidResponse getUserIdResp = getUserIdClient.Execute(getUserIdReq, getTokenResp.AccessToken);
-
-            // 4. 生成 Response
-            if (getUserIdResp != null && !String.IsNullOrWhiteSpace(getUserIdResp.Userid))
+            if (Options.IncludeUserInfo)
             {
-                var payload = JsonDocument.Parse($@"{{""access_token"":""{getTokenResp.AccessToken}"",""expires_in"":""{getTokenResp.ExpiresIn}"",""userid"":""{getUserIdResp.Userid}""}}");
-                return Task.FromResult(OAuthTokenResponse.Success(payload));
+                // 2. 获取 access token
+                IDingTalkClient getTokenClient = new DefaultDingTalkClient("https://oapi.dingtalk.com/gettoken");
+                OapiGettokenRequest getTokenReq = new OapiGettokenRequest();
+                getTokenReq.SetHttpMethod("GET");
+                getTokenReq.Appkey = Options.AppKey;
+                getTokenReq.Appsecret = Options.AppSecret;
+                OapiGettokenResponse getTokenResp = getTokenClient.Execute(getTokenReq);
+
+                // 3. 根据 unionId, access token 去获取 userId，因为只有 userId 才是企业内用户的唯一编号
+                IDingTalkClient getUserIdClient = new DefaultDingTalkClient("https://oapi.dingtalk.com/user/getUseridByUnionid");
+                OapiUserGetUseridByUnionidRequest getUserIdReq = new OapiUserGetUseridByUnionidRequest();
+                getUserIdReq.SetHttpMethod("GET");
+                getUserIdReq.Unionid = userInfoResp.UserInfo.Unionid;
+                OapiUserGetUseridByUnionidResponse getUserIdResp = getUserIdClient.Execute(getUserIdReq, getTokenResp.AccessToken);
+
+                // 4. 生成 Response
+                if (getUserIdResp != null && !String.IsNullOrWhiteSpace(getUserIdResp.Userid))
+                {
+                    var payload = JsonDocument.Parse($@"{{""access_token"":""{getTokenResp.AccessToken}"",""expires_in"":""{getTokenResp.ExpiresIn}"",""userid"":""{getUserIdResp.Userid}""}}");
+                    return Task.FromResult(OAuthTokenResponse.Success(payload));
+                }
+                else
+                {
+                    return Task.FromResult(OAuthTokenResponse.Failed(new Exception(getUserIdResp.Errmsg)));
+                }
             }
             else
             {
-                return Task.FromResult(OAuthTokenResponse.Failed(new Exception(getUserIdResp.Errmsg)));
+                var payload = JsonDocument.Parse($@"{{""access_token"":""{userInfoReq.TmpAuthCode}"",""openId"":""{userInfoResp.UserInfo.Openid}"",""unionid"":""{userInfoResp.UserInfo.Unionid}"",""nickname"":""{userInfoResp.UserInfo.Nick}""}}");
+                return Task.FromResult(OAuthTokenResponse.Success(payload));
             }
         }
 
         protected override async Task<AuthenticationTicket> CreateTicketAsync(ClaimsIdentity identity, AuthenticationProperties properties, OAuthTokenResponse tokens)
         {
-            // 钉钉提供的获取用户信息的地址
-            string endpoint = QueryHelpers.AddQueryString(Options.UserInformationEndpoint, "access_token", tokens.AccessToken);
-            string userId = tokens.Response.RootElement.GetString("userid");
-
-            endpoint = QueryHelpers.AddQueryString(endpoint, "userid", userId);
-
-            // 获取钉钉的用户信息
-            var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
-
-            var response = await Backchannel.SendAsync(request, Context.RequestAborted);
-            if (!response.IsSuccessStatusCode)
+            JsonDocument payload = null;
+            if (Options.IncludeUserInfo)
             {
-                throw new HttpRequestException($"An error occurred when retrieving Dingtalk user information ({response.StatusCode}).");
+                // 钉钉提供的获取用户信息的地址
+                string endpoint = QueryHelpers.AddQueryString(Options.UserInformationEndpoint, "access_token", tokens.AccessToken);
+                string userId = tokens.Response.RootElement.GetString("userid");
+
+                endpoint = QueryHelpers.AddQueryString(endpoint, "userid", userId);
+
+                // 获取钉钉的用户信息
+                var request = new HttpRequestMessage(HttpMethod.Get, endpoint);
+
+                var response = await Backchannel.SendAsync(request, Context.RequestAborted);
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new HttpRequestException($"An error occurred when retrieving Dingtalk user information ({response.StatusCode}).");
+                }
+
+                string rawPayload = await response.Content.ReadAsStringAsync();
+                var dingTalkUserInfo = JsonSerializer.Deserialize<DingTalkUserInfoDto>(rawPayload, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+                if (dingTalkUserInfo.Errcode != 0)
+                {
+                    throw new HttpRequestException($"An error occurred when retrieving Dingtalk user information ({dingTalkUserInfo.Errmsg}).");
+                }
+                payload = JsonDocument.Parse(rawPayload);
+            }
+            else
+            {
+                payload = tokens.Response;
             }
 
-            string rawPayload = await response.Content.ReadAsStringAsync();
-            var dingTalkUserInfo = JsonSerializer.Deserialize<DingTalkUserInfoDto>(rawPayload, new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            });
-            if (dingTalkUserInfo.Errcode != 0)
-            {
-                throw new HttpRequestException($"An error occurred when retrieving Dingtalk user information ({dingTalkUserInfo.Errmsg}).");
-            }
-
-            var payload = JsonDocument.Parse(rawPayload);
             var context = new OAuthCreatingTicketContext(new ClaimsPrincipal(identity), properties, Context, Scheme, Options, Backchannel, tokens, payload.RootElement);
             context.RunClaimActions();
 

@@ -6,8 +6,8 @@
     <RootNamespace>Microsoft.Extensions.DependencyInjection</RootNamespace>
     <Authors>Charlie</Authors>
     <Company />
-    <Version>1.0.4</Version>
-    <Description>提供钉钉外部扫码登陆的 Middleware，要求 .Net Core 为 3.1.10</Description>
+    <Version>2.0.0</Version>
+    <Description>提供钉钉外部扫码登陆的 Middleware。支持仅有钉钉扫码登录 appId、secet 的登录方式 (此方式只会返回用户的 unionId、nickname)，也支持更丰富的基于钉钉企业内部开发小程序的 appId、secet (此方式会返回更详细的用户信息，如姓名、工号、电话等）</Description>
     <PackageProjectUrl>https://github.com/stg609/DingTalkExternalLogin</PackageProjectUrl>
     <RepositoryUrl>https://github.com/stg609/DingTalkExternalLogin.git</RepositoryUrl>
     <PackageTags>DingTalk;钉钉;扫码登陆</PackageTags>

@@ -4,6 +4,66 @@
         <name>Charlie.AspNetCore.Authentication.DingTalk</name>
     </assembly>
     <members>
+        <member name="T:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes">
+            <summary>
+            钉钉特有的 Claim
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.UnionId">
+            <summary>
+            员工在当前开发者企业账号范围内的唯一标识
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.JobNumber">
+            <summary>
+            员工工号
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.Position">
+            <summary>
+            职位信息
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.IsSenior">
+            <summary>
+            是否是高管
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.OrgEmail">
+            <summary>
+            员工的企业邮箱
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.RealAuthed">
+            <summary>
+            是否实名认证
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.IsBoss">
+            <summary>
+            是否是老板
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.IsAdmin">
+            <summary>
+            是否为企业的管理员
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.IsLeaderInDepts">
+            <summary>
+            在对应的部门中是否为主管：Map结构的json字符串，key是部门的id，value是人员在这个部门中是否为主管，true表示是，false表示不是
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.HiredDate">
+            <summary>
+            入职时间。Unix时间戳
+            </summary>
+        </member>
+        <member name="F:Microsoft.Extensions.DependencyInjection.DingTalkClaimTypes.Extattr">
+            <summary>
+            扩展属性
+            </summary>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.DingTalkExternalLoginMiddlewareExtension">
             <summary>
             钉钉外部登录扩展
@@ -35,15 +95,21 @@
             Ding Ding 外部登录选项
             </summary>
         </member>
-        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkOptions.QrLoginAppId">
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkOptions.AppKey">
             <summary>
-            用于扫码登陆的 App Id
+            企业内部开发小程序的 App Key
             </summary>
         </member>
-        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkOptions.QrLoginAppSecret">
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkOptions.AppSecret">
             <summary>
-            用于扫码登陆的 App Secret
+            企业内部开发小程序的 App Secret
             </summary>
+        </member>
+        <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkOptions.IncludeUserInfo">
+            <summary>
+            是否包含该用户在企业内的 用户信息（如：UserId、姓名、手机号、工号等）
+            </summary>
+            <remarks>默认为 false, 只会包含用户在 钉钉中的 unionId 及 nickname。如果需要包含用户在企业内的 UserId、姓名、手机号、工号，需要提供钉钉企业内小程序对应的 AppId、Secret</remarks>
         </member>
         <member name="P:Microsoft.Extensions.DependencyInjection.DingTalkUserInfoDto.Mobile">
             <summary>
