@@ -24,7 +24,8 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-
+    workingDirectory: '.\DingTalkExternalLogin'
+    arguments: -c Release
 
 - task: VSTest@2
   inputs:
