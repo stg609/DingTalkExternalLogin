@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using DingTalkExternalLoginDemo.Data;
@@ -27,6 +28,8 @@ namespace DingTalkExternalLoginDemo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -41,9 +44,10 @@ namespace DingTalkExternalLoginDemo
                 opts.ClientId = dingTalkOpts.ClientId;
                 opts.ClientSecret = dingTalkOpts.ClientSecret;
 
-                opts.QrLoginAppId = dingTalkOpts.QrLoginAppId;
-                opts.QrLoginAppSecret = dingTalkOpts.QrLoginAppSecret;
+                opts.AppKey = dingTalkOpts.AppKey;
+                opts.AppSecret = dingTalkOpts.AppSecret;
 
+                opts.IncludeUserInfo = dingTalkOpts.IncludeUserInfo;
 
                 opts.SignInScheme = IdentityConstants.ExternalScheme;
             });

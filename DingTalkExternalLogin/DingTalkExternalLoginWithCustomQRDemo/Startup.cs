@@ -44,9 +44,9 @@ namespace DingTalkExternalLoginWithCustomQRDemo
                 opts.ClientId = dingTalkOpts.ClientId;
                 opts.ClientSecret = dingTalkOpts.ClientSecret;
 
-                opts.QrLoginAppId = dingTalkOpts.QrLoginAppId;
-                opts.QrLoginAppSecret = dingTalkOpts.QrLoginAppSecret;
-
+                opts.AppKey = dingTalkOpts.AppKey;
+                opts.AppSecret = dingTalkOpts.AppSecret;
+                opts.IncludeUserInfo = dingTalkOpts.IncludeUserInfo;
 
                 opts.SignInScheme = IdentityConstants.ExternalScheme;
 
