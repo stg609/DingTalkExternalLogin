@@ -1,3 +1,5 @@
+[![NuGet version (Charlie.AspNetCore.Authentication.DingTalk)](https://img.shields.io/nuget/v/Charlie.AspNetCore.Authentication.DingTalk.svg?style=flat-square)](https://www.nuget.org/packages/Charlie.AspNetCore.Authentication.DingTalk/)
+
 提供钉钉外部扫码登陆，用于集成到 Asp.Net Core Identity。
 
 
