@@ -2,7 +2,7 @@
 
 提供钉钉外部扫码登陆，用于集成到 Asp.Net Core Identity。
 
-[dingtalklogin](./Docs/imgs/dingtalklogin.gif)
+![dingtalklogin](./Docs/imgs/dingtalklogin.gif)
 
 ## v2.0 版本
 ### 与上一个版本的区别：
