@@ -1,14 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Threading.Tasks;
 using DingTalkExternalLoginDemo.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,15 +33,14 @@ namespace DingTalkExternalLoginDemo
             var dingTalkOpts = Configuration.GetSection("DingTalkOptions").Get<DingTalkOptions>();
 
             // Ìí¼Ó ¶¤¶¤ µÇÂ½
-            services.AddAuthentication().AddDingTalk(opts=>
+            services.AddAuthentication().AddDingTalk(opts =>
             {
                 opts.ClientId = dingTalkOpts.ClientId;
                 opts.ClientSecret = dingTalkOpts.ClientSecret;
 
+                opts.IncludeUserInfo = dingTalkOpts.IncludeUserInfo;
                 opts.AppKey = dingTalkOpts.AppKey;
                 opts.AppSecret = dingTalkOpts.AppSecret;
-
-                opts.IncludeUserInfo = dingTalkOpts.IncludeUserInfo;
 
                 opts.SignInScheme = IdentityConstants.ExternalScheme;
             });
