@@ -1,11 +1,126 @@
 提供钉钉外部扫码登陆，用于集成到 Asp.Net Core Identity。
 
+
+## v2.0 版本
+### 与上一个版本的区别：
+1. 允许开发者只提供 钉钉扫码登录 的 AppKey、Secret。不再要求必须提供 钉钉内部小程序的 AppKey、Secret。（详见 <前提>）
+1. `DingTalkOptions` 中原 `ClientId` 现用于表示 钉钉扫码登录 的 AppKey，原 `ClientSecret` 现在用于表示 钉钉扫码登录的 AppSecret
+1. `DingTalkOptions` 中原 `QrLoginAppId`、`QrLoginAppSecret` 被废弃
+1. `DingTalkOptions` 中新增 `IncludeUserInfo` 表示是否包含该用户在企业内的用户信息（如：UserId、姓名、手机号、工号等）
+1. `DingTalkOptions` 中新增 `AppKey` 用于表示 企业内部开发小程序的 App Key、`AppSecret` 表示 企业内部开发小程序的 App Secret（注，这两个仅当 `IncludeUserInfo` 为 `true` 才需要必填）
+1. 提供 `DingTalkClaimTypes` 用于定义钉钉返回的用户信息（仅当 `IncludeUserInfo` 为 `true`）
+
 ### 前提   
-1. 开发者自行在钉钉开发者平台中注册 **企业内部应用-小程序**
+1. 开发者自行在钉钉开发者平台中注册 **企业内部应用-小程序** （可选）
+1. 开发者自行在钉钉开发者平台中注册 **移动接入应用-登陆**
+
+### 基本用法差异   
+1. 引入 nuget package: `Install-Package Charlie.AspNetCore.Authentication.DingTalk `
+2. 修改原 `AddDingTalk` 的配置
+```csharp
+services.AddAuthentication()
+    .AddDingTalk(opts =>
+    {
+        opts.ClientId = 钉钉扫码登录 的 AppKey
+        opts.ClientSecret = 钉钉扫码登录的 AppSecret;
+        
+        opts.IncludeUserInfo = 是否包含该用户在企业内的用户信息;        
+        opts.AppKey = 企业内部开发小程序的 App Key;
+        opts.AppSecret = 企业内部开发小程序的 App Secret;
+     }
+```
+ 
+#### 获得钉钉返回的用户信息
+1. 右键单击项目，选择 **添加-新搭建基架的项目...**，然后选择 **标识**，在弹出框中，选择 **Account\ExternalLogin**。这个步骤会在项目中创建 Asp.Net Core Identity 的 **ExternalLogin** Razor Page
+1. 在 **ExternalLogin.cshtml.cs** 中的 `OnPostConfirmationAsync` 方法里，当 `AddLoginAsync` 成功后，可以通过 `info.Prinicpal.Claims` 获取钉钉返回的所有 Claim。开发者可以自行决定如何使用这些 Claim，如：
+```csharp
+    public async Task<IActionResult> OnPostConfirmationAsync(string returnUrl = null)
+    {
+        // 省略部分无关代码
+        result = await _userManager.AddLoginAsync(user, info);
+        if (result.Succeeded)
+        {
+            _logger.LogInformation("User created an account using {Name} provider.", info.LoginProvider);
+
+            // 增加来自于 DingTalk 的额外的 claim
+            await _userManager.AddClaimsAsync(user, info.Principal.Claims);
+            
+            //省略部分无关代码
+          }
+      }
+```
+#### 钉钉返回的 Claim 
+```csharp
+    /// <summary>
+    /// 钉钉特有的 Claim
+    /// </summary>
+    public static class DingTalkClaimTypes
+    {
+        /// <summary>
+        /// 员工在当前开发者企业账号范围内的唯一标识
+        /// </summary>
+        public const string UnionId = "urn:dingtalk:unionid";
+
+        /// <summary>
+        /// 员工工号
+        /// </summary>
+        public const string JobNumber = "urn:dingtalk:jobno";
+
+        /// <summary>
+        /// 职位信息
+        /// </summary>
+        public const string Position = "urn:dingtalk:position";
+
+        /// <summary>
+        /// 是否是高管
+        /// </summary>
+        public const string IsSenior = "urn:dingtalk:is_senior";
+
+        /// <summary>
+        /// 员工的企业邮箱
+        /// </summary>
+        public const string OrgEmail= "urn:dingtalk:ogr_email";
+
+        /// <summary>
+        /// 是否实名认证
+        /// </summary>
+        public const string RealAuthed = "urn:dingtalk:real_authed";
+
+        /// <summary>
+        /// 是否是老板
+        /// </summary>
+        public const string IsBoss = "urn:dingtalk:is_boss";
+
+        /// <summary>
+        /// 是否为企业的管理员
+        /// </summary>
+        public const string IsAdmin = "urn:dingtalk:is_admin";
+
+        /// <summary>
+        /// 在对应的部门中是否为主管：Map结构的json字符串，key是部门的id，value是人员在这个部门中是否为主管，true表示是，false表示不是
+        /// </summary>
+        public const string IsLeaderInDepts = "urn:dingtalk:is_leader_in_depts";
+
+        /// <summary>
+        /// 入职时间。Unix时间戳
+        /// </summary>
+        public const string HiredDate = "urn:dingtalk:hired_date";
+
+        /// <summary>
+        /// 扩展属性
+        /// </summary>
+        public const string Extattr = "urn:dingtalk:ext_attr";
+    }
+```
+
+
+## v1.0 版本
+### 前提   
+1. 开发者自行在钉钉开发者平台中注册 **企业内部应用-小程序** 
 1. 开发者自行在钉钉开发者平台中注册 **移动接入应用-登陆**
 
 ### 基本用法   
-1. 引入 nuget package: `Install-Package Charlie.AspNetCore.Authentication.DingTalk`
+1. 引入 nuget package: `Install-Package Charlie.AspNetCore.Authentication.DingTalk -Version 1.0.4`
 2. 增加如下代码
 ```csharp
 services.AddAuthentication()
