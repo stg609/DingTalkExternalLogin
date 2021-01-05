@@ -18,6 +18,9 @@
 1. 开发者自行在钉钉开发者平台中注册 **企业内部应用-小程序** （可选）
 1. 开发者自行在钉钉开发者平台中注册 **移动接入应用-登陆**
 
+### Demo
+详见解决方案中对应的 Demo 项目
+
 ### 基本用法差异   
 1. 引入 nuget package: `Install-Package Charlie.AspNetCore.Authentication.DingTalk `
 2. 修改原 `AddDingTalk` 的配置
@@ -28,13 +31,15 @@ services.AddAuthentication()
         opts.ClientId = 钉钉扫码登录 的 AppKey
         opts.ClientSecret = 钉钉扫码登录的 AppSecret;
         
-        opts.IncludeUserInfo = 是否包含该用户在企业内的用户信息;        
+        // 以下为非必填项
+        opts.IncludeUserInfo = 是否包含该用户在企业内的用户信息 （默认为 false);        
         opts.AppKey = 企业内部开发小程序的 App Key;
         opts.AppSecret = 企业内部开发小程序的 App Secret;
      }
 ```
  
-#### 获得钉钉返回的用户信息
+#### 获得钉钉返回的用户信息 (IncludeUserInfo = true)
+1. 默认情况下，Asp.Net Core Identity 在外部登录成功后，只会把 `name` 及 `nameidentifier` 两个 claim 的信息作为用户的 claim 保存下来，如果想获取更多的外部登录用户的信息，需要进行如下操作：
 1. 右键单击项目，选择 **添加-新搭建基架的项目...**，然后选择 **标识**，在弹出框中，选择 **Account\ExternalLogin**。这个步骤会在项目中创建 Asp.Net Core Identity 的 **ExternalLogin** Razor Page
 1. 在 **ExternalLogin.cshtml.cs** 中的 `OnPostConfirmationAsync` 方法里，当 `AddLoginAsync` 成功后，可以通过 `info.Prinicpal.Claims` 获取钉钉返回的所有 Claim。开发者可以自行决定如何使用这些 Claim，如：
 ```csharp
