@@ -77,6 +77,15 @@
             <param name="configureOptions"></param>
             <returns></returns>
         </member>
+        <member name="M:Microsoft.Extensions.DependencyInjection.DingTalkExternalLoginMiddlewareExtension.AddDingTalk(Microsoft.AspNetCore.Authentication.AuthenticationBuilder,System.String,System.Action{Microsoft.Extensions.DependencyInjection.DingTalkOptions})">
+            <summary>
+            提供DingDing外部登陆
+            </summary>
+            <param name="builder"></param>
+            <param name="displayName">显示的名称</param>
+            <param name="configureOptions"></param>
+            <returns></returns>
+        </member>
         <member name="T:Microsoft.Extensions.DependencyInjection.DingTalkHandler">
             <summary>
             DingDing External Login Hanlder
